@@ -50,10 +50,10 @@ This project is for **CSCI461: Introduction to Big Data** at Nile University (Sp
 
 ## Contributors
 
-- [Omar Bassam](https://github.com/OmarBassamTawfik)  
-- [AbdelRahman AlSammany](https://github.com/Sammany1)  
-- [Mostafa Alsheikh](https://github.com/Mostafa-alsheikh)
-- [Shahd Mansour]()  
+- [**Omar Bassam**](https://github.com/OmarBassamTawfik)  
+- [**AbdelRahman AlSammany**](https://github.com/Sammany1)  
+- [**Mostafa Alsheikh**](https://github.com/Mostafa-alsheikh)
+- [**Shahd Mansour**](https://github.com/shaahdmaansour)  
 
 ---
 
