@@ -1,4 +1,5 @@
 import pandas as pd
+import os
 
 
 df = pd.read_csv("res_dpre.csv") 
@@ -18,3 +19,4 @@ with open("eda-in-3.txt", "w") as f:
     f.write(survival_count.to_string()+"\n")
 
 print("EDA insights saved")
+os.system("python3 vis.py")
