@@ -18,5 +18,15 @@ with open("eda-in-3.txt", "w") as f:
     f.write(f"Survivors vs Non-Survivors:\n")
     f.write(survival_count.to_string()+"\n")
 
+class_count = df["Pclass"].value_counts()
+with open("eda-in-4.txt", "w") as f:
+    f.write("Passengers by class:\n")
+    f.write(class_count.to_string() + "\n")
+
+survival_by_class = df.groupby("Pclass")["Survived"].mean().round(2)
+with open("eda-in-5.txt", "w") as f:
+    f.write("Survival Rate by Class:\n")
+    f.write(survival_by_class.to_string() + "\n")
+
 print("EDA insights saved")
 os.system("python3 vis.py")
