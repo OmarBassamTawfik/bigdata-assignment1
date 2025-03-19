@@ -1,58 +1,65 @@
 import sys
 import pandas as pd
-from sklearn.preprocessing import StandardScaler, LabelEncoder, KBinsDiscretizer # type: ignore
+import subprocess
+from sklearn.preprocessing import MinMaxScaler
 
+# function to perform data preprocessing:
+#   1) handle missing values by filling them with the column mean.
+#   2) nornmalize numerical columns using MinMaxScaler.
+#   3) save the cleaned dataset as 'res_dpre.csv'.
+#   4) pass the processed dataset to eda.py.
 
-# ensure a dataset path is provided
-if len(sys.argv) != 2:
-    print("Usage: python3 dpre.py <input-file>")
-    sys.exit(1)
+def preprocess_data(file_path):
+    try:
+        # load dataset
+        df = pd.read_csv(file_path)
+        print("\noriginal data snapshot (first 5 rows): ")
+        print(df.head())
 
-input_file = sys.argv[1]
+        # rename "2urvived" to "Survived"
+        df.rename(columns={"2urvived": "Survived"}, inplace=True)
 
-print(f"Debug: Input file received - {input_file}")
+        # check missing values before handling
+        print("\nmissing values before cleaning: ")
+        print(df.isnull().sum())
 
+        # handling missing values (filling with mean for simplicity)
+        df.fillna(df.mean(), inplace=True)
 
-# load dataset
-try:
-    df = pd.read_csv(input_file)
-    print(f"Dataset loaded from {input_file}")
+        # check missing values after handling
+        print("\nmissing values after cleaning: ")
+        print(df.isnull().sum())
 
-except Exception as e:
-    print(f"Error loading dataset: {e}")
-    sys.exit(1)
+        # identify numerical columns for normalization
+        num_cols = df.select_dtypes(include=['number']).columns
 
+        # print numerical data before normalization
+        print("\nnumerical data before normalization (first 5 rows):")
+        print(df[num_cols].head())
 
-# data Cleaning
-df.drop_duplicates(inplace=True)  # remove duplicates
-df.dropna(inplace=True)  # remove rows with missing values
+        # apply MinMaxScaler to normalize numerical columns
+        scaler = MinMaxScaler()
+        df[num_cols] = scaler.fit_transform(df[num_cols])
 
+        # print numerical data after normalization
+        print("\nnumerical data after normalization (first 5 rows):")
+        print(df[num_cols].head())
 
-# data Transformation
-# normalize numerical columns
-numerical_cols = df.select_dtypes(include=['int64', 'float64']).columns
-scaler = StandardScaler()
-df[numerical_cols] = scaler.fit_transform(df[numerical_cols])
+        # save the processed dataset
+        processed_file = "res_dpre.csv"
+        df.to_csv(processed_file, index=False)
+        print(f"\npreprocessing completed!! data saved as {processed_file}")
 
+        # call eda.py with the processed file
+        subprocess.run(["python3", "eda.py", processed_file])
 
-# encode categorical columns
-categorical_cols = df.select_dtypes(include=['object']).columns
-encoder = LabelEncoder()
-for col in categorical_cols:
-    df[col] = encoder.fit_transform(df[col])
+    except Exception as e:
+        print(f"error in preprocessing: {e}")
 
-
-# dimensionality Reduction (Optional: Remove Low Variance Features)
-df = df.loc[:, df.var() > 0.01]  # drop low variance features
-
-
-# data Discretization
-# discretize numerical data into 3 bins
-discretizer = KBinsDiscretizer(n_bins=3, encode='ordinal', strategy='uniform')
-df[numerical_cols] = discretizer.fit_transform(df[numerical_cols])
-
-
-# save processed data
-output_file = "/home/doc-bd-a1/res_dpre.csv"
-df.to_csv(output_file, index=False)
-print(f"Processed dataset saved as {output_file}")
+if __name__ == "__main__":
+    # ensure the user provides a dataset file path
+    if len(sys.argv) < 2:
+        print("usage: python3 dpre.py <input_file>")
+    
+    else:
+        preprocess_data(sys.argv[1])  # call the function with the dataset path
