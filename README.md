@@ -23,10 +23,9 @@ This project is for **CSCI461: Introduction to Big Data** at Nile University (Sp
    docker pull omarbassamtawfik/bigdata-a1
    ```
 
-2.  **Build the Docker Image**
-
+2. **Build the Docker Image**
    ```sh
-   docker build -t bigdata-a1 .  
+   docker build -t bigdata-a1 .
    ```
 
 3. **Run the Docker Container**
