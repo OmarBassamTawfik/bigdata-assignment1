@@ -30,6 +30,5 @@ plt.ylabel("Frequency")
 plt.savefig("vis-3-age.png")
 plt.close()
 
-
-os.system("python3 model.py")
 print("Visualizations saved")
+os.system("python3 model.py titanic.csv")

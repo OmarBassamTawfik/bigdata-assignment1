@@ -13,11 +13,13 @@ RUN /home/doc-bd-a1/venv/bin/pip install pandas numpy seaborn matplotlib scikit-
 
 RUN mkdir -p /home/doc-bd-a1/
 
-COPY Titanic.csv /home/doc-bd-a1/
+COPY titanic.csv /home/doc-bd-a1/
 
 COPY load.py dpre.py eda.py vis.py model.py final.sh /home/doc-bd-a1/
 
 WORKDIR /home/doc-bd-a1/
+
+RUN chmod +x final.sh
 
 # Activate the virtual environment when running the container
 CMD ["/bin/bash", "-c", "source /home/doc-bd-a1/venv/bin/activate && /bin/bash"]

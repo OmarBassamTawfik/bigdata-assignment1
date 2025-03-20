@@ -1,57 +1,73 @@
 import sys
-import pandas as pd
 import subprocess
+import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 
-# function to perform data preprocessing:
-#   1) handle missing values by filling them with the column mean.
-#   2) nornmalize numerical columns using MinMaxScaler.
-#   3) save the cleaned dataset as 'res_dpre.csv'.
-#   4) pass the processed dataset to eda.py.
+def preprocess_data(file_path, output_file="processed_titanic.csv"):
+    """
+    Preprocess the Titanic dataset:
+    - Handle missing values
+    - Encode categorical columns
+    - Normalize numerical columns
+    - Save the processed dataset
 
-def preprocess_data(file_path):
+    Args:
+        file_path (str): Path to the input Titanic dataset.
+        output_file (str): Path to save the processed dataset.
+    """
     try:
-        # load dataset
+        # Load the dataset
         df = pd.read_csv(file_path)
-        print("\noriginal data snapshot (first 5 rows): ")
+        print("\nOriginal data snapshot (first 5 rows):")
         print(df.head())
 
-        # check missing values before handling
-        print("\nmissing values before cleaning: ")
+        # Check missing values before handling
+        print("\nMissing values before cleaning:")
         print(df.isnull().sum())
 
-        # handling missing values (filling with mean for simplicity)
-        df.fillna(df.mean(), inplace=True)
+        # Handle missing values
+        if 'Age' in df.columns:
+            df['Age'].fillna(df['Age'].mean(), inplace=True)
+        if 'Embarked' in df.columns:
+            df['Embarked'].fillna(df['Embarked'].mode()[0], inplace=True)
+        if 'Cabin' in df.columns:
+            df.drop(columns=['Cabin'], inplace=True)  # Drop 'Cabin' due to excessive missing values
 
-        # check missing values after handling
-        print("\nmissing values after cleaning: ")
+        # Encode categorical columns
+        if 'Sex' in df.columns:
+            df['Sex'] = df['Sex'].map({'male': 0, 'female': 1})
+        if 'Embarked' in df.columns:
+            df['Embarked'] = df['Embarked'].map({'C': 0, 'Q': 1, 'S': 2})
+
+        # Check missing values after handling
+        print("\nMissing values after cleaning:")
         print(df.isnull().sum())
 
-        # identify numerical columns for normalization
+        # Identify numerical columns for normalization
         num_cols = df.select_dtypes(include=['number']).columns
 
-        # print numerical data before normalization
-        print("\nnumerical data before normalization (first 5 rows):")
+        # Print numerical data before normalization
+        print("\nNumerical data before normalization (first 5 rows):")
         print(df[num_cols].head())
 
-        # apply MinMaxScaler to normalize numerical columns
+        # Apply MinMaxScaler to normalize numerical columns
         scaler = MinMaxScaler()
         df[num_cols] = scaler.fit_transform(df[num_cols])
 
-        # print numerical data after normalization
-        print("\nnumerical data after normalization (first 5 rows):")
+        # Print numerical data after normalization
+        print("\nNumerical data after normalization (first 5 rows):")
         print(df[num_cols].head())
 
-        # save the processed dataset
-        processed_file = "res_dpre.csv"
-        df.to_csv(processed_file, index=False)
-        print(f"\npreprocessing completed!! data saved as {processed_file}")
-
+        # Save the processed dataset
+        df.to_csv("res_dpre.csv", index=False)
+        print(f"\nPreprocessing completed! Data saved as {"res_dpre.csv"}")
+        
         # call eda.py with the processed file
-        subprocess.run(["python3", "eda.py", processed_file])
+        subprocess.run(["python3", "eda.py", "res_dpre.csv"])
 
     except Exception as e:
-        print(f"error in preprocessing: {e}")
+        print(f"Error in preprocessing: {e}")
+
 
 if __name__ == "__main__":
     # ensure the user provides a dataset file path
@@ -60,3 +76,4 @@ if __name__ == "__main__":
     
     else:
         preprocess_data(sys.argv[1])  # call the function with the dataset path
+        
