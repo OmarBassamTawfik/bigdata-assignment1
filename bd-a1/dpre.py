@@ -16,9 +16,6 @@ def preprocess_data(file_path):
         print("\noriginal data snapshot (first 5 rows): ")
         print(df.head())
 
-        # rename "2urvived" to "Survived"
-        df.rename(columns={"2urvived": "Survived"}, inplace=True)
-
         # check missing values before handling
         print("\nmissing values before cleaning: ")
         print(df.isnull().sum())
