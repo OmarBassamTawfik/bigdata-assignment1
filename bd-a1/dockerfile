@@ -13,7 +13,7 @@ RUN /home/doc-bd-a1/venv/bin/pip install pandas numpy seaborn matplotlib scikit-
 
 RUN mkdir -p /home/doc-bd-a1/
 
-COPY dataset.csv /home/doc-bd-a1/
+COPY Titanic.csv /home/doc-bd-a1/
 
 COPY load.py dpre.py eda.py vis.py model.py final.sh /home/doc-bd-a1/
 
