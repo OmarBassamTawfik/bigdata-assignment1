@@ -17,25 +17,43 @@ This project is for **CSCI461: Introduction to Big Data** at Nile University (Sp
 
 ## Execution Steps
 
-1. **Build the Docker Image**
+1. **Pull the Docker Image from Docker Hub**
+
+   ```sh
+   docker pull omarbassamtawfik/bigdata-a1
+   ```
+
+3.  **Build the Docker Image**
 
    ```sh
    docker build -t bigdata-a1 .  
    ```
 
-2. **Run the Docker Container**
+3. **Run the Docker Container**
 
    ```sh
    docker run -it --name bigdata-container bigdata-a1  
    ```
 
-3. **Execute the Pipeline** (inside the container)
+4. **Execute the Pipeline** (inside the container)
 
    ```sh
    python3 load.py <dataset-path>  
    ```
 
-4. **Copy Results to Local Machine & Stop Container**
+5. **Exit the Container**
+
+   ```sh
+   exit
+   ```
+   
+6. **Restart the Container** (in detach mode)
+
+   ```sh
+   docker start bigdata-container
+   ```
+   
+7. **Copy Results to Local Machine & Stop Container**
 
    ```sh
    bash final.sh <container-name>
