@@ -23,7 +23,7 @@ This project is for **CSCI461: Introduction to Big Data** at Nile University (Sp
    docker pull omarbassamtawfik/bigdata-a1
    ```
 
-3.  **Build the Docker Image**
+2.  **Build the Docker Image**
 
    ```sh
    docker build -t bigdata-a1 .  
@@ -32,7 +32,7 @@ This project is for **CSCI461: Introduction to Big Data** at Nile University (Sp
 3. **Run the Docker Container**
 
    ```sh
-   docker run -it --name bigdata-container bigdata-a1  
+   docker run -it --name <container-name> bigdata-a1  
    ```
 
 4. **Execute the Pipeline** (inside the container)
@@ -50,7 +50,7 @@ This project is for **CSCI461: Introduction to Big Data** at Nile University (Sp
 6. **Restart the Container** (in detach mode)
 
    ```sh
-   docker start bigdata-container
+   docker start <container-name>
    ```
    
 7. **Copy Results to Local Machine & Stop Container**
