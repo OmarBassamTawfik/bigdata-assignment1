@@ -38,14 +38,14 @@ This project is for **CSCI461: Introduction to Big Data** at Nile University (Sp
 4. **Copy Results to Local Machine & Stop Container**
 
    ```sh
-   bash final.sh  
+   bash final.sh <container-name>
    ```
 
 ## Expected Output Files
 
 - `res_dpre.csv` → Processed dataset after preprocessing.
-- `eda-in-1.txt`, `eda-in-2.txt`, `eda-in-3.txt` → Insights from EDA.
-- `vis.png` → Visualization of the dataset.
+- `eda-in-1.txt`, `eda-in-2.txt`, `eda-in-3.txt`, `eda-in-4.txt`, `eda-in-5.txt` → Insights from EDA.
+- `vis-1-gender.png`, `vis-2-survival.png`, `vis-3-age.png` → Visualization of the dataset.
 - `k.txt` → Number of records in each cluster from K-means.
 
 ## Contributors
